@@ -1,4 +1,8 @@
-import type { MessageType, GetMessagesParamsType, CreateMessageRequestType } from "../types/message";
+import type {
+  CreateMessageRequestType,
+  GetMessagesParamsType,
+  MessageType,
+} from "../types/message";
 
 const API_BASE_URL = "http://localhost:3000/api/v1";
 const AUTH_TOKEN = "super-secret-doodle-token";

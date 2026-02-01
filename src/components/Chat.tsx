@@ -8,13 +8,12 @@ export function Chat() {
   const [messages, setMessages] = useState<MessageType[]>([]);
 
   useEffect(() => {
+    async function loadMessages() {
+      const data = await fetchMessages();
+      setMessages(data);
+    }
     loadMessages();
   }, []);
-
-  async function loadMessages() {
-    const data = await fetchMessages();
-    setMessages(data);
-  }
 
   async function handleSendMessage(data: CreateMessageRequestType) {
     const newMessage = await sendMessage(data);
