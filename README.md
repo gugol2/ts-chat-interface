@@ -1,67 +1,73 @@
-# The Challenge (Frontend Engineer)
+# React + TypeScript + Vite
 
-We would like you to build a simple chat interface in TypeScript that sends and displays messages from all senders. The design should resemble the example below:
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-<img src="chat.png" width="400" alt="chat" />
+Currently, two official plugins are available:
 
-The assets and additional documentation are available in the **assets** folder.
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
-## Overview
+## React Compiler
 
-Your task is to implement the frontend for a chat application. The backend API, which handles message storage and retrieval, has been shared as another repository.
+The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
 
-**For the backend implementation details and setup instructions, please refer to the [Frontend Challenge Chat API repository](https://github.com/DoodleScheduling/frontend-challenge-chat-api)**.
+## Expanding the ESLint configuration
 
-### Frontend challenge Chat API Details
+If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
 
-- **Authentication:** All message related endpoints require a Bearer token.
-- **Endpoints:**
-  - **GET /api/v1/messages:** Retrieves messages in reverse chronological order with optional pagination.
-  - **POST /api/v1/messages:** Creates a new chat message.
-- **Example cURL Commands after you run it locally:**
+```js
+export default defineConfig([
+  globalIgnores(['dist']),
+  {
+    files: ['**/*.{ts,tsx}'],
+    extends: [
+      // Other configs...
 
-  **List all messages:**
+      // Remove tseslint.configs.recommended and replace with this
+      tseslint.configs.recommendedTypeChecked,
+      // Alternatively, use this for stricter rules
+      tseslint.configs.strictTypeChecked,
+      // Optionally, add this for stylistic rules
+      tseslint.configs.stylisticTypeChecked,
 
-  ```shell script
-  curl http://localhost:3000/api/v1/messages \
-    -H "Authorization: Bearer super-secret-doodle-token"
-  ```
+      // Other configs...
+    ],
+    languageOptions: {
+      parserOptions: {
+        project: ['./tsconfig.node.json', './tsconfig.app.json'],
+        tsconfigRootDir: import.meta.dirname,
+      },
+      // other options...
+    },
+  },
+])
+```
 
-  **List 10 messages after a specific timestamp:**
+You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
 
-  ```shell script
-  curl "http://localhost:3000/api/v1/messages?after=2023-01-01T00:00:00.000Z&limit=10" \
-    -H "Authorization: Bearer super-secret-doodle-token"
-  ```
+```js
+// eslint.config.js
+import reactX from 'eslint-plugin-react-x'
+import reactDom from 'eslint-plugin-react-dom'
 
-  **Send a message:**
-
-  ```shell script
-  curl -X POST http://localhost:3000/api/v1/messages \
-    -H "Authorization: Bearer super-secret-doodle-token" \
-    -H "Content-Type: application/json" \
-    -d '{"message": "Hello world", "author": "John Doe"}'
-  ```
-
-## Challenge Requirements
-
-- **Time Commitment:** Spend 4 to 6 hours on the challenge over the course of one week.
-- **Technology:** Build the interface using React and TypeScript. Feel free to use frameworks like Next.js if desired.
-- **Responsiveness:** The interface must be responsive and work smoothly on commonly used browsers and mobile devices.
-- **Code Quality:** Maintain clear code readability, commit often with useful messages, and prioritize performance and accessibility.
-
-## What We’re Looking For
-
-- **Code Readability and Clean Architecture**
-- **Commit Quality:** Frequent, descriptive commits.
-- **Performance:** Fast load times and efficient rendering for mobile devices.
-- **Accessibility:** User friendly design that is accessible to everyone.
-- **Design Attention:** We are not looking for pixel perfect results, but we love attention to detail.
-
-## Submission
-
-Once completed, send an email with a link to your repository to `code-challenge@doodle.com` with the subject `FE-<yourname>`. For example, if your name is "Paul Smith", the subject should be `FE-Paul Smith`.
-
-We will review your submission within one week although sometimes it might take a bit longer.
-
-Good luck and happy coding!
+export default defineConfig([
+  globalIgnores(['dist']),
+  {
+    files: ['**/*.{ts,tsx}'],
+    extends: [
+      // Other configs...
+      // Enable lint rules for React
+      reactX.configs['recommended-typescript'],
+      // Enable lint rules for React DOM
+      reactDom.configs.recommended,
+    ],
+    languageOptions: {
+      parserOptions: {
+        project: ['./tsconfig.node.json', './tsconfig.app.json'],
+        tsconfigRootDir: import.meta.dirname,
+      },
+      // other options...
+    },
+  },
+])
+```
