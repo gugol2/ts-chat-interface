@@ -1,4 +1,4 @@
-import type { Message as MessageType } from "../types/message";
+import type { MessageType } from "../types/message";
 
 export function Message({ author, message, createdAt }: MessageType) {
   const formattedDate = new Date(createdAt).toLocaleString();
