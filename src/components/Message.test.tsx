@@ -16,4 +16,17 @@ describe("Message", () => {
     expect(screen.getByText("Hello World")).toBeInTheDocument();
     expect(screen.getByText(/2024/)).toBeInTheDocument();
   });
+
+  it("applies 'message-own' class when author is 'You'", () => {
+    const messageData = {
+      author: "You",
+      message: "My message",
+      createdAt: "2024-01-01T10:30:00.000Z",
+    };
+
+    const { container } = render(<Message {...messageData} />);
+    const messageElement = container.querySelector(".message");
+
+    expect(messageElement).toHaveClass("message-own");
+  });
 });
