@@ -28,7 +28,7 @@ describe("Chat", () => {
   it("sends a new message and adds it to the list", async () => {
     const user = userEvent.setup();
     const mockNewMessage = {
-      author: "Bob",
+      author: "You",
       message: "Hello!",
       createdAt: "2024-01-01T10:01:00.000Z",
     };
@@ -39,16 +39,14 @@ describe("Chat", () => {
 
     await waitFor(() => expect(messageClient.fetchMessages).toHaveBeenCalled());
 
-    const authorInput = screen.getByPlaceholderText(/author/i);
     const messageInput = screen.getByPlaceholderText(/message/i);
     const sendButton = screen.getByRole("button", { name: /send/i });
 
-    await user.type(authorInput, "Bob");
     await user.type(messageInput, "Hello!");
     await user.click(sendButton);
 
     await waitFor(() => {
-      expect(screen.getByText("Bob")).toBeInTheDocument();
+      expect(screen.getByText("You")).toBeInTheDocument();
       expect(screen.getByText("Hello!")).toBeInTheDocument();
     });
   });

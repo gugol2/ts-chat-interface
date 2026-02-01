@@ -6,26 +6,18 @@ interface MessageInputProps {
 }
 
 export function MessageInput({ onSend }: MessageInputProps) {
-  const [author, setAuthor] = useState("");
   const [message, setMessage] = useState("");
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (author.trim() && message.trim()) {
-      onSend({ author, message });
-      setAuthor("");
+    if (message.trim()) {
+      onSend({ author: "You", message });
       setMessage("");
     }
   };
 
   return (
     <form onSubmit={handleSubmit} className="message-input">
-      <input
-        type="text"
-        placeholder="Author"
-        value={author}
-        onChange={(e) => setAuthor(e.target.value)}
-      />
       <textarea
         placeholder="Message"
         value={message}
