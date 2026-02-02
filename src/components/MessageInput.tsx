@@ -9,7 +9,7 @@ interface MessageInputProps {
 export function MessageInput({ onSend }: MessageInputProps) {
   const [message, setMessage] = useState("");
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (message.trim()) {
       onSend({ author: "You", message });
