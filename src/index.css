@@ -1,46 +1,20 @@
-:root {
-  --color-text-primary: #333333;
-  --color-text-secondary: #999999;
-  --color-text-light: #cccccc;
-
-  --color-bg-page: #f5f5f5;
-  --color-bg-message-user: #f5e6b8;
-  --color-bg-message-other: #ffffff;
-  --color-bg-input-area: #4a90e2;
-  --color-bg-input: #ffffff;
-  --color-bg-button: #ff6b6b;
-
-  --color-border: #e0e0e0;
-
-  --spacing-xs: 4px;
-  --spacing-sm: 8px;
-  --spacing-md: 12px;
-  --spacing-lg: 16px;
-  --spacing-xl: 24px;
-
-  --border-radius-sm: 4px;
-  --border-radius-md: 8px;
-
-  --font-family: system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
-  --font-size-sm: 12px;
-  --font-size-base: 14px;
-  --font-size-lg: 16px;
-
-  font-family: var(--font-family);
-  line-height: 1.5;
-  font-weight: 400;
-  color: var(--color-text-primary);
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
+@import "./design-system.css";
 
 *,
 *::before,
 *::after {
   box-sizing: border-box;
+}
+
+html {
+  font-family: var(--font-family);
+  line-height: 1.5;
+  font-weight: 400;
+  color: var(--color-text-primary);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 body {
