@@ -1,5 +1,6 @@
 import { useState } from "react";
 import type { CreateMessageRequestType } from "../types/message";
+import "./MessageInput.css";
 
 interface MessageInputProps {
   onSend: (data: CreateMessageRequestType) => void;
@@ -18,12 +19,17 @@ export function MessageInput({ onSend }: MessageInputProps) {
 
   return (
     <form onSubmit={handleSubmit} className="message-input">
-      <textarea
-        placeholder="Message"
-        value={message}
-        onChange={(e) => setMessage(e.target.value)}
-      />
-      <button type="submit">Send</button>
+      <div className="message-input__container">
+        <textarea
+          className="message-input__field"
+          placeholder="Message"
+          value={message}
+          onChange={(e) => setMessage(e.target.value)}
+        />
+        <button type="submit" className="message-input__button">
+          Send
+        </button>
+      </div>
     </form>
   );
 }

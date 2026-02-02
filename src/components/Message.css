@@ -1,0 +1,29 @@
+.message {
+  padding: var(--spacing-md);
+  background-color: var(--color-bg-message-other);
+  border-radius: var(--border-radius-md);
+  max-width: 70%;
+}
+
+.message--user {
+  background-color: var(--color-bg-message-user);
+  align-self: flex-end;
+}
+
+.message__author {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  margin-bottom: var(--spacing-xs);
+}
+
+.message__content {
+  font-size: var(--font-size-base);
+  color: var(--color-text-primary);
+  margin-bottom: var(--spacing-xs);
+  word-wrap: break-word;
+}
+
+.message__timestamp {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-light);
+}

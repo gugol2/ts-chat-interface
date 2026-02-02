@@ -1,8 +1,9 @@
-import { useState, useEffect } from "react";
-import { MessageList } from "./MessageList";
-import { MessageInput } from "./MessageInput";
+import { useEffect, useState } from "react";
 import { fetchMessages, sendMessage } from "../api/messageClient";
-import type { MessageType, CreateMessageRequestType } from "../types/message";
+import type { CreateMessageRequestType, MessageType } from "../types/message";
+import { MessageInput } from "./MessageInput";
+import { MessageList } from "./MessageList";
+import "./Chat.css";
 
 export function Chat() {
   const [messages, setMessages] = useState<MessageType[]>([]);

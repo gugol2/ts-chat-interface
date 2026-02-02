@@ -18,7 +18,7 @@ describe("Message", () => {
     expect(screen.getByText(/2024/)).toBeInTheDocument();
   });
 
-  it("applies 'message-own' class when author is 'You'", () => {
+  it("applies 'message--user' class when author is 'You'", () => {
     const messageData = {
       _id: "::_id::",
       author: "You",
@@ -29,6 +29,6 @@ describe("Message", () => {
     const { container } = render(<Message {...messageData} />);
     const messageElement = container.querySelector(".message");
 
-    expect(messageElement).toHaveClass("message-own");
+    expect(messageElement).toHaveClass("message--user");
   });
 });

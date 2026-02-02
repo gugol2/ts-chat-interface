@@ -1,5 +1,6 @@
 import type { MessageType } from "../types/message";
 import { Message } from "./Message";
+import "./MessageList.css";
 
 interface MessageListProps {
   messages: MessageType[];

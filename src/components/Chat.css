@@ -1,0 +1,7 @@
+.chat {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  border-radius: var(--border-radius-md);
+  overflow: hidden;
+}

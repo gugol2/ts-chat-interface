@@ -1,0 +1,11 @@
+.message-list {
+  display: flex;
+  flex-direction: column;
+  padding: var(--spacing-lg) var(--spacing-xl);
+  overflow-y: auto;
+  flex: 1;
+  gap: var(--spacing-sm);
+  max-width: 640px;
+  width: 100%;
+  align-self: center;
+}
