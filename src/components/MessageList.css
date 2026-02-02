@@ -8,4 +8,10 @@
   max-width: 640px;
   width: 100%;
   align-self: center;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.message-list::-webkit-scrollbar {
+  display: none;
 }
