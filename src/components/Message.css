@@ -10,6 +10,15 @@
   align-self: flex-end;
 }
 
+.message + .message {
+  margin-top: var(--spacing-sm);
+}
+
+.message--user + .message:not(.message--user),
+.message:not(.message--user) + .message--user {
+  margin-top: var(--spacing-lg);
+}
+
 .message__author {
   font-size: var(--font-size-sm);
   color: var(--color-text-secondary);
