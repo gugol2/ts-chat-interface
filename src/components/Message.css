@@ -1,5 +1,5 @@
 .message {
-  padding: var(--spacing-md);
+  padding: var(--spacing-lg);
   background-color: var(--color-bg-message-other);
   border-radius: var(--border-radius-md);
   max-width: 70%;
