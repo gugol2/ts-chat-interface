@@ -1,4 +1,6 @@
 .message-input {
+  position: sticky;
+  bottom: 0;
   display: flex;
   gap: var(--spacing-md);
   padding: var(--spacing-lg);

@@ -3,5 +3,12 @@
   flex-direction: column;
   height: 100%;
   border-radius: var(--border-radius-md);
-  overflow: hidden;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.chat::-webkit-scrollbar {
+  display: none;
 }
