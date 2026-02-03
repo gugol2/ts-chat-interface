@@ -11,6 +11,18 @@ describe("Chat", () => {
     vi.clearAllMocks();
   });
 
+  it("displays loading text while messages are loading", async () => {
+    vi.mocked(messageClient.fetchMessages).mockResolvedValue([]);
+
+    render(<Chat />);
+
+    expect(screen.getByText("Loading...")).toBeInTheDocument();
+
+    await waitFor(() => {
+      expect(screen.queryByText("Loading...")).not.toBeInTheDocument();
+    });
+  });
+
   it("fetches and displays messages on mount", async () => {
     const mockMessages = [
       { _id: "::_id::", author: "Alice", message: "Hi!", createdAt: "2024-01-01T10:00:00.000Z" },
