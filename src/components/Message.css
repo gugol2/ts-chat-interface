@@ -3,6 +3,7 @@
   background-color: var(--color-bg-message-other);
   border-radius: var(--border-radius-md);
   max-width: 70%;
+  align-self: flex-start;
 }
 
 .message--user {
