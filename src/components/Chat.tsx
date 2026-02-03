@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import { fetchMessages, sendMessage } from "../api/messageClient";
 import type { CreateMessageRequestType, MessageType } from "../types/message";
+import "./Chat.css";
 import { MessageInput } from "./MessageInput";
 import { MessageList } from "./MessageList";
-import "./Chat.css";
-import { MessageListLoading } from "./MessageListLoading";
+import { MessageSkeleton } from "./MessageSkeleton";
 
 export function Chat() {
   const [messages, setMessages] = useState<MessageType[]>([]);
@@ -27,7 +27,27 @@ export function Chat() {
 
   return (
     <div className="chat">
-      {loading ? <MessageListLoading /> : <MessageList messages={messages} />}
+      {loading ? (
+        <div className="message-list">
+          <MessageSkeleton />
+          <MessageSkeleton />
+          <MessageSkeleton />
+          <MessageSkeleton />
+          <MessageSkeleton />
+          <MessageSkeleton />
+          <MessageSkeleton />
+          <MessageSkeleton />
+          <MessageSkeleton />
+          <MessageSkeleton />
+          <MessageSkeleton />
+          <MessageSkeleton />
+          <MessageSkeleton />
+          <MessageSkeleton />
+        </div>
+      ) : (
+        <MessageList messages={messages} />
+      )}
+
       <MessageInput onSend={handleSendMessage} />
     </div>
   );

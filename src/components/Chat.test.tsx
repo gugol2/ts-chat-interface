@@ -11,15 +11,17 @@ describe("Chat", () => {
     vi.clearAllMocks();
   });
 
-  it("displays loading text while messages are loading", async () => {
+  it("displays skeletons while messages are loading", async () => {
     vi.mocked(messageClient.fetchMessages).mockResolvedValue([]);
 
-    render(<Chat />);
+    const { container } = render(<Chat />);
 
-    expect(screen.getByText("Loading...")).toBeInTheDocument();
+    const skeletons = container.querySelectorAll(".message-skeleton");
+    expect(skeletons.length).toBeGreaterThan(0);
 
     await waitFor(() => {
-      expect(screen.queryByText("Loading...")).not.toBeInTheDocument();
+      const skeletonsAfter = container.querySelectorAll(".message-skeleton");
+      expect(skeletonsAfter.length).toBe(0);
     });
   });
 
