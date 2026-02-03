@@ -21,6 +21,8 @@ export function MessageInput({ onSend }: MessageInputProps) {
     <form onSubmit={handleSubmit} className="message-input">
       <div className="message-input__container">
         <textarea
+          id="message"
+          name="message"
           className="message-input__field"
           placeholder="Message"
           value={message}
