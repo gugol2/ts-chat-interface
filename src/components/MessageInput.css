@@ -18,7 +18,7 @@
 
 .message-input__field {
   flex: 1;
-  padding: var(--spacing-md);
+  padding: var(--spacing-lg);
   border: none;
   border-radius: var(--border-radius-sm);
   background-color: var(--color-bg-input);
@@ -26,11 +26,11 @@
   font-size: var(--font-size-base);
   color: var(--color-text-primary);
   resize: vertical;
-  min-height: 40px;
+  height: 48px;
 }
 
 .message-input__field:focus {
-  outline: 2px solid var(--color-bg-button);
+  outline: 2px solid color-mix(in oklab, var(--color-bg-input-area), black 30%);
 }
 
 .message-input__field::placeholder {
