@@ -1,14 +1,14 @@
 import { render, screen } from "@testing-library/react";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { MessageList } from "./MessageList";
 
 describe("MessageList", () => {
-  it("renders a list of skeleton messages when loading is true", async () => {
-    const messages = [
-      { _id: "::_id-1::", author: "Alice", message: "Hi!", createdAt: "2024-01-01T10:00:00.000Z" },
-      { _id: "::_id-2::", author: "Bob", message: "Hello!", createdAt: "2024-01-01T10:01:00.000Z" },
-    ];
+  const messages = [
+    { _id: "::_id-1::", author: "Alice", message: "Hi!", createdAt: "2024-01-01T10:00:00.000Z" },
+    { _id: "::_id-2::", author: "Bob", message: "Hello!", createdAt: "2024-01-01T10:01:00.000Z" },
+  ];
 
+  it("renders a list of skeleton messages when loading is true", async () => {
     const { container } = render(<MessageList messages={messages} loading={true} />);
     expect(container.querySelectorAll(".message-skeleton").length).toBe(15);
 
@@ -19,16 +19,59 @@ describe("MessageList", () => {
   });
 
   it("renders a list of actual messages when loading is false", () => {
-    const messages = [
-      { _id: "::_id-1::", author: "Alice", message: "Hi!", createdAt: "2024-01-01T10:00:00.000Z" },
-      { _id: "::_id-2::", author: "Bob", message: "Hello!", createdAt: "2024-01-01T10:01:00.000Z" },
-    ];
-
     render(<MessageList messages={messages} loading={false} />);
 
     expect(screen.getByText("Alice")).toBeInTheDocument();
     expect(screen.getByText("Hi!")).toBeInTheDocument();
     expect(screen.getByText("Bob")).toBeInTheDocument();
     expect(screen.getByText("Hello!")).toBeInTheDocument();
+  });
+
+  it("scrolls to bottom when messages finish loading", () => {
+    const { container } = render(<MessageList messages={messages} loading={false} />);
+
+    const messageListElement = container.querySelector(".message-list");
+    const parentElement = messageListElement?.parentElement;
+
+    expect(parentElement?.scrollTop).toBe(parentElement?.scrollHeight);
+  });
+
+  it("scrolls to bottom when a new message arrives", () => {
+    const initialMessages = [
+      { _id: "::_id-1::", author: "Alice", message: "Hi!", createdAt: "2024-01-01T10:00:00.000Z" },
+    ];
+
+    const { container, rerender } = render(
+      <MessageList messages={initialMessages} loading={false} />,
+    );
+
+    const messageListElement = container.querySelector(".message-list");
+    const parentElement = messageListElement?.parentElement as HTMLElement;
+
+    Object.defineProperty(parentElement, "scrollHeight", {
+      writable: true,
+      configurable: true,
+      value: 1000,
+    });
+
+    const scrollTopSetter = vi.fn();
+    Object.defineProperty(parentElement, "scrollTop", {
+      set: scrollTopSetter,
+      get: () => 0,
+    });
+
+    const newMessages = [
+      ...initialMessages,
+      {
+        _id: "::_id-3::",
+        author: "Charlie",
+        message: "Hey!",
+        createdAt: "2024-01-01T10:02:00.000Z",
+      },
+    ];
+
+    rerender(<MessageList messages={newMessages} loading={false} />);
+
+    expect(scrollTopSetter).toHaveBeenCalledWith(1000);
   });
 });
