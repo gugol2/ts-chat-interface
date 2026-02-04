@@ -8,7 +8,6 @@ import { MessageList } from "./MessageList";
 export function Chat() {
   const [messages, setMessages] = useState<MessageType[]>([]);
   const [loading, setLoading] = useState(true);
-  const [sending, setSending] = useState(false);
 
   useEffect(() => {
     async function loadMessages() {
@@ -26,10 +25,8 @@ export function Chat() {
   const chatRef = useRef<HTMLDivElement>(null);
 
   async function handleSendMessage(data: CreateMessageRequestType) {
-    setSending(true);
     const newMessage = await sendMessage(data);
     setMessages([...messages, newMessage]);
-    setSending(false);
 
     // Wait for React to render
     setTimeout(() => {
@@ -42,7 +39,7 @@ export function Chat() {
   return (
     <div className="chat" ref={chatRef}>
       <MessageList messages={messages} loading={loading} />
-      <MessageInput onSend={handleSendMessage} disabled={sending} />
+      <MessageInput onSend={handleSendMessage} />
     </div>
   );
 }

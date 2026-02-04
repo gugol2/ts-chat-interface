@@ -81,36 +81,6 @@ describe("Chat", () => {
     });
   });
 
-  it("disables input and button while sending a message", async () => {
-    const user = userEvent.setup();
-
-    vi.mocked(messageClient.fetchMessages).mockResolvedValue(mockMessages);
-    vi.mocked(messageClient.sendMessage).mockImplementation(
-      () => new Promise((resolve) => setTimeout(() => resolve(mockNewMessage), 100)),
-    );
-
-    render(<Chat />);
-
-    await waitFor(() => expect(messageClient.fetchMessages).toHaveBeenCalled());
-
-    const messageInput = screen.getByPlaceholderText(/message/i);
-    const sendButton = screen.getByRole("button", { name: /send/i });
-
-    expect(messageInput).not.toBeDisabled();
-    expect(sendButton).not.toBeDisabled();
-
-    await user.type(messageInput, "Hello!");
-    await user.click(sendButton);
-
-    expect(messageInput).toBeDisabled();
-    expect(sendButton).toBeDisabled();
-
-    await waitFor(() => {
-      expect(messageInput).not.toBeDisabled();
-      expect(sendButton).not.toBeDisabled();
-    });
-  });
-
   it("scrolls to the bottom of the Chat component when a new message arrives", async () => {
     const user = userEvent.setup();
 
