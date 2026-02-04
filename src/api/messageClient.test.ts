@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach, vi } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 import { fetchMessages, sendMessage } from "./messageClient";
 
 describe("messageClient", () => {
@@ -19,6 +19,36 @@ describe("messageClient", () => {
       expect(global.fetch).toHaveBeenCalledWith("http://localhost:3000/api/v1/messages", {
         headers: { Authorization: "Bearer super-secret-doodle-token" },
       });
+      expect(result).toEqual(mockMessages);
+    });
+
+    it("fetches messages from the API with auth token and params if there", async () => {
+      const mockMessages = [
+        { author: "John", message: "Hello", createdAt: "2024-01-01" },
+        { author: "Mary", message: "Bye", createdAt: "2024-01-02" },
+      ];
+      (global.fetch as ReturnType<typeof vi.fn>).mockResolvedValue({
+        ok: true,
+        json: async () => mockMessages,
+      });
+
+      const limitValue = 1;
+      const beforeValue = "::beforeValue::";
+      const afterValue = "::afterValue::";
+
+      const searchParams = { limit: limitValue, before: beforeValue, after: afterValue };
+      const result = await fetchMessages(searchParams);
+
+      const searchParamsUrl = new URLSearchParams(
+        `after=${afterValue}&limit=${limitValue}&before=${beforeValue}`,
+      );
+
+      expect(global.fetch).toHaveBeenCalledWith(
+        `http://localhost:3000/api/v1/messages?${searchParamsUrl}`,
+        {
+          headers: { Authorization: "Bearer super-secret-doodle-token" },
+        },
+      );
       expect(result).toEqual(mockMessages);
     });
   });

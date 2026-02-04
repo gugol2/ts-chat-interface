@@ -15,6 +15,9 @@ export async function fetchMessages(params?: GetMessagesParamsType): Promise<Mes
   if (params?.limit) {
     url.searchParams.append("limit", params.limit.toString());
   }
+  if (params?.before) {
+    url.searchParams.append("before", params.before);
+  }
 
   const response = await fetch(url.toString(), {
     headers: {

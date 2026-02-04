@@ -12,5 +12,6 @@ export interface CreateMessageRequestType {
 
 export interface GetMessagesParamsType {
   after?: string;
+  before?: string;
   limit?: number;
 }
