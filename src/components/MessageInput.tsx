@@ -32,7 +32,11 @@ export function MessageInput({ onSend }: MessageInputProps) {
           onChange={(e) => setMessage(e.target.value)}
           disabled={sending}
         />
-        <button type="submit" className="message-input__button" disabled={sending}>
+        <button
+          type="submit"
+          className="message-input__button"
+          disabled={sending || !message.trim()}
+        >
           Send
         </button>
       </div>
