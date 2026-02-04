@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { fetchMessages, sendMessage } from "../api/messageClient";
 import type { CreateMessageRequestType, MessageType } from "../types/message";
 import "./Chat.css";
@@ -24,8 +24,27 @@ export function Chat() {
     setMessages([...messages, newMessage]);
   }
 
+  const chatRef = useRef<HTMLDivElement>(null);
+  const previousMessageCountRef = useRef(0);
+
+  useEffect(() => {
+    if (!loading && chatRef.current) {
+      const currentCount = messages.length;
+      const previousCount = previousMessageCountRef.current;
+
+      if (currentCount > previousCount && previousCount > 0) {
+        const scrollableChat = chatRef.current;
+        if (scrollableChat) {
+          scrollableChat.scrollTop = scrollableChat.scrollHeight;
+        }
+      }
+
+      previousMessageCountRef.current = currentCount;
+    }
+  }, [messages, loading]);
+
   return (
-    <div className="chat">
+    <div className="chat" ref={chatRef}>
       <MessageList messages={messages} loading={loading} />
       <MessageInput onSend={handleSendMessage} />
     </div>
