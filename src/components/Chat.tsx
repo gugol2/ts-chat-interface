@@ -19,29 +19,19 @@ export function Chat() {
     loadMessages();
   }, []);
 
+  const chatRef = useRef<HTMLDivElement>(null);
+
   async function handleSendMessage(data: CreateMessageRequestType) {
     const newMessage = await sendMessage(data);
     setMessages([...messages, newMessage]);
-  }
 
-  const chatRef = useRef<HTMLDivElement>(null);
-  const previousMessageCountRef = useRef(0);
-
-  useEffect(() => {
-    if (!loading && chatRef.current) {
-      const currentCount = messages.length;
-      const previousCount = previousMessageCountRef.current;
-
-      if (currentCount > previousCount && previousCount > 0) {
-        const scrollableChat = chatRef.current;
-        if (scrollableChat) {
-          scrollableChat.scrollTop = scrollableChat.scrollHeight;
-        }
+    // Wait for React to render
+    setTimeout(() => {
+      if (chatRef.current) {
+        chatRef.current.scrollTop = chatRef.current.scrollHeight;
       }
-
-      previousMessageCountRef.current = currentCount;
-    }
-  }, [messages, loading]);
+    }, 10);
+  }
 
   return (
     <div className="chat" ref={chatRef}>

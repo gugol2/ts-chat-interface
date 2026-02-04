@@ -16,7 +16,7 @@ describe("Chat", () => {
   ];
 
   const mockNewMessage = {
-    _id: "::_id::",
+    _id: "::_id-2::",
     author: "You",
     message: "Hello!",
     createdAt: "2024-01-01T10:01:00.000Z",
@@ -108,37 +108,7 @@ describe("Chat", () => {
     await waitFor(() => {
       expect(screen.getByText("You")).toBeInTheDocument();
       expect(screen.getByText("Hello!")).toBeInTheDocument();
+      expect(scrollTopSetter).toHaveBeenCalledWith(1000);
     });
-
-    expect(scrollTopSetter).toHaveBeenCalledWith(1000);
-  });
-
-  it("NOT scrolls to the bottom of the Chat component when initally loading the new messages", async () => {
-    vi.mocked(messageClient.fetchMessages).mockResolvedValue(mockMessages);
-
-    const { container } = render(<Chat />);
-
-    await waitFor(() => expect(messageClient.fetchMessages).toHaveBeenCalled());
-
-    const chatElement = container.querySelector(".chat") as HTMLElement;
-
-    Object.defineProperty(chatElement, "scrollHeight", {
-      writable: true,
-      configurable: true,
-      value: 1000,
-    });
-
-    const scrollTopSetter = vi.fn();
-    Object.defineProperty(chatElement, "scrollTop", {
-      set: scrollTopSetter,
-      get: () => 0,
-    });
-
-    await waitFor(() => {
-      expect(screen.getByText("Alice")).toBeInTheDocument();
-      expect(screen.getByText("Hi!")).toBeInTheDocument();
-    });
-
-    expect(scrollTopSetter).not.toHaveBeenCalledWith();
   });
 });
