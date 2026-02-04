@@ -4,7 +4,6 @@ import type { CreateMessageRequestType, MessageType } from "../types/message";
 import "./Chat.css";
 import { MessageInput } from "./MessageInput";
 import { MessageList } from "./MessageList";
-import { MessageSkeleton } from "./MessageSkeleton";
 
 export function Chat() {
   const [messages, setMessages] = useState<MessageType[]>([]);
@@ -27,27 +26,7 @@ export function Chat() {
 
   return (
     <div className="chat">
-      {loading ? (
-        <div className="message-list">
-          <MessageSkeleton />
-          <MessageSkeleton />
-          <MessageSkeleton />
-          <MessageSkeleton />
-          <MessageSkeleton />
-          <MessageSkeleton />
-          <MessageSkeleton />
-          <MessageSkeleton />
-          <MessageSkeleton />
-          <MessageSkeleton />
-          <MessageSkeleton />
-          <MessageSkeleton />
-          <MessageSkeleton />
-          <MessageSkeleton />
-        </div>
-      ) : (
-        <MessageList messages={messages} />
-      )}
-
+      <MessageList messages={messages} loading={loading} />
       <MessageInput onSend={handleSendMessage} />
     </div>
   );
