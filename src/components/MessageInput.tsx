@@ -4,9 +4,10 @@ import "./MessageInput.css";
 
 interface MessageInputProps {
   onSend: (data: CreateMessageRequestType) => void;
+  disabled?: boolean;
 }
 
-export function MessageInput({ onSend }: MessageInputProps) {
+export function MessageInput({ onSend, disabled = false }: MessageInputProps) {
   const [message, setMessage] = useState("");
 
   const handleSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {
@@ -27,8 +28,9 @@ export function MessageInput({ onSend }: MessageInputProps) {
           placeholder="Message"
           value={message}
           onChange={(e) => setMessage(e.target.value)}
+          disabled={disabled}
         />
-        <button type="submit" className="message-input__button">
+        <button type="submit" className="message-input__button" disabled={disabled}>
           Send
         </button>
       </div>

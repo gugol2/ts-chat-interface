@@ -37,6 +37,12 @@
   color: var(--color-text-secondary);
 }
 
+.message-input__field:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  background-color: color-mix(in oklab, var(--color-bg-input), black 5%);
+}
+
 .message-input__button {
   padding: var(--spacing-md) var(--spacing-xl);
   background-color: var(--color-bg-button);
@@ -54,4 +60,13 @@
 
 .message-input__button:active {
   opacity: 0.8;
+}
+
+.message-input__button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.message-input__button:disabled:hover {
+  opacity: 0.5;
 }
