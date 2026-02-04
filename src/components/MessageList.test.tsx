@@ -27,15 +27,6 @@ describe("MessageList", () => {
     expect(screen.getByText("Hello!")).toBeInTheDocument();
   });
 
-  it("scrolls to bottom when messages finish loading", () => {
-    const { container } = render(<MessageList messages={messages} loading={false} />);
-
-    const messageListElement = container.querySelector(".message-list");
-    const parentElement = messageListElement?.parentElement;
-
-    expect(parentElement?.scrollTop).toBe(parentElement?.scrollHeight);
-  });
-
   it("scrolls to bottom when a new message arrives", () => {
     const initialMessages = [
       { _id: "::_id-1::", author: "Alice", message: "Hi!", createdAt: "2024-01-01T10:00:00.000Z" },
@@ -73,5 +64,30 @@ describe("MessageList", () => {
     rerender(<MessageList messages={newMessages} loading={false} />);
 
     expect(scrollTopSetter).toHaveBeenCalledWith(1000);
+  });
+
+  it("NOT scrolls to bottom when messages finish loading", () => {
+    const initialMessages = [
+      { _id: "::_id-1::", author: "Alice", message: "Hi!", createdAt: "2024-01-01T10:00:00.000Z" },
+    ];
+
+    const { container } = render(<MessageList messages={initialMessages} loading={false} />);
+
+    const messageListElement = container.querySelector(".message-list");
+    const parentElement = messageListElement?.parentElement as HTMLElement;
+
+    Object.defineProperty(parentElement, "scrollHeight", {
+      writable: true,
+      configurable: true,
+      value: 1000,
+    });
+
+    const scrollTopSetter = vi.fn();
+    Object.defineProperty(parentElement, "scrollTop", {
+      set: scrollTopSetter,
+      get: () => 0,
+    });
+
+    expect(scrollTopSetter).not.toHaveBeenCalled();
   });
 });

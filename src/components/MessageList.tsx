@@ -31,16 +31,23 @@ const LoadingSkeleton = (
 
 export function MessageList({ messages, loading }: MessageListProps) {
   const messageListRef = useRef<HTMLDivElement>(null);
+  const previousMessageCountRef = useRef(0);
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     if (!loading && messageListRef.current) {
-      const scrollableParent = messageListRef.current.parentElement;
-      if (scrollableParent) {
-        scrollableParent.scrollTop = scrollableParent.scrollHeight;
+      const currentCount = messages.length;
+      const previousCount = previousMessageCountRef.current;
+
+      if (currentCount > previousCount && previousCount > 0) {
+        const scrollableParent = messageListRef.current.parentElement;
+        if (scrollableParent) {
+          scrollableParent.scrollTop = scrollableParent.scrollHeight;
+        }
       }
+
+      previousMessageCountRef.current = currentCount;
     }
-  }, [loading, messages]);
+  }, [messages, loading]);
 
   return (
     <div className="message-list" ref={messageListRef}>
