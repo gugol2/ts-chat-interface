@@ -46,6 +46,12 @@ describe("Chat", () => {
     render(<Chat />);
 
     await waitFor(() => {
+      expect(messageClient.fetchMessages).toHaveBeenCalledWith(
+        expect.objectContaining({
+          before: expect.any(String),
+          limit: 25,
+        }),
+      );
       expect(screen.getByText("Alice")).toBeInTheDocument();
       expect(screen.getByText("Hi!")).toBeInTheDocument();
     });

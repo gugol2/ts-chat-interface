@@ -11,7 +11,10 @@ export function Chat() {
 
   useEffect(() => {
     async function loadMessages() {
-      const data = await fetchMessages();
+      const data = await fetchMessages({
+        before: new Date().toISOString(),
+        limit: 25,
+      });
       setMessages(data);
       setLoading(false);
     }
