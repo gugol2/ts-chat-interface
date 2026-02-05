@@ -57,7 +57,9 @@ describe("messageClient", () => {
         new Error("Network request failed"),
       );
 
-      await expect(fetchMessages()).rejects.toThrow("Failed to fetch messages");
+      await expect(fetchMessages()).rejects.toThrow(
+        /^Failed to fetch messages: Network request failed$/,
+      );
     });
 
     it("throws error when API returns 400", async () => {
@@ -117,7 +119,7 @@ describe("messageClient", () => {
       );
 
       await expect(sendMessage({ author: "Alice", message: "Hi" })).rejects.toThrow(
-        "Failed to send message",
+        /^Failed to send message: Network request failed$/,
       );
     });
 

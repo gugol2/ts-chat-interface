@@ -11,8 +11,9 @@ async function handleRequest<T>(fetchPromise: Promise<Response>, errorMessage: s
   let response: Response;
   try {
     response = await fetchPromise;
-  } catch (_error) {
-    throw new Error(errorMessage);
+  } catch (error) {
+    const originalMessage = error instanceof Error ? error.message : String(error);
+    throw new Error(`${errorMessage}: ${originalMessage}`);
   }
 
   if (!response.ok) {
