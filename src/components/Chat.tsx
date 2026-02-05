@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import toast from "react-hot-toast";
 import { fetchMessages, sendMessage } from "../api/messageClient";
 import type { CreateMessageRequestType, MessageType } from "../types/message";
 import "./Chat.css";
@@ -8,7 +9,6 @@ import { MessageList } from "./MessageList";
 export function Chat() {
   const [messages, setMessages] = useState<MessageType[]>([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     async function loadMessages() {
@@ -20,7 +20,7 @@ export function Chat() {
         setMessages(data);
       } catch (err) {
         const errorMessage = err instanceof Error ? err.message : "Unknown error";
-        setError(errorMessage);
+        toast.error(errorMessage);
       } finally {
         setLoading(false);
       }
@@ -44,13 +44,12 @@ export function Chat() {
       }, 10);
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : "Unknown error";
-      setError(errorMessage);
+      toast.error(errorMessage);
     }
   }
 
   return (
     <div className="chat" ref={chatRef}>
-      {error && <div className="chat__error-message">{error}</div>}
       <MessageList messages={messages} loading={loading} />
       <MessageInput onSend={handleSendMessage} />
     </div>

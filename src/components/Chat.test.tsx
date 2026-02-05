@@ -1,10 +1,12 @@
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
+import toast from "react-hot-toast";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import * as messageClient from "../api/messageClient";
 import { Chat } from "./Chat";
 
 vi.mock("../api/messageClient");
+vi.mock("react-hot-toast");
 
 describe("Chat", () => {
   beforeEach(() => {
@@ -118,7 +120,7 @@ describe("Chat", () => {
     });
   });
 
-  it("displays error message when fetching messages fails", async () => {
+  it("displays error toast when fetching messages fails", async () => {
     vi.mocked(messageClient.fetchMessages).mockRejectedValue(
       new Error("Failed to fetch messages: Network request failed"),
     );
@@ -126,11 +128,11 @@ describe("Chat", () => {
     render(<Chat />);
 
     await waitFor(() => {
-      expect(screen.getByText(/failed to fetch messages/i)).toBeInTheDocument();
+      expect(toast.error).toHaveBeenCalledWith("Failed to fetch messages: Network request failed");
     });
   });
 
-  it("displays error message when sending message fails", async () => {
+  it("displays error toast when sending message fails", async () => {
     const user = userEvent.setup();
 
     vi.mocked(messageClient.fetchMessages).mockResolvedValue(mockMessages);
@@ -149,7 +151,7 @@ describe("Chat", () => {
     await user.click(sendButton);
 
     await waitFor(() => {
-      expect(screen.getByText(/failed to send message/i)).toBeInTheDocument();
+      expect(toast.error).toHaveBeenCalledWith("Failed to send message: Network request failed");
     });
   });
 });
