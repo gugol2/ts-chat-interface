@@ -1,1 +1,1 @@
-npm exec lint-staged && npm run test
+npm run biome-check:staged && npm run test
