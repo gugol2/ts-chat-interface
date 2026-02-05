@@ -51,6 +51,42 @@ describe("messageClient", () => {
       );
       expect(result).toEqual(mockMessages);
     });
+
+    it("throws error when network fails", async () => {
+      (global.fetch as ReturnType<typeof vi.fn>).mockRejectedValue(
+        new Error("Network request failed"),
+      );
+
+      await expect(fetchMessages()).rejects.toThrow("Failed to fetch messages");
+    });
+
+    it("throws error when API returns 400", async () => {
+      (global.fetch as ReturnType<typeof vi.fn>).mockResolvedValue({
+        ok: false,
+        status: 400,
+        json: async () => ({
+          error: "Invalid query parameters",
+          details: [{ msg: "Invalid timestamp format", param: "after", location: "query" }],
+        }),
+      });
+
+      await expect(fetchMessages()).rejects.toThrow("Invalid query parameters");
+    });
+
+    it("throws error when API returns 500", async () => {
+      (global.fetch as ReturnType<typeof vi.fn>).mockResolvedValue({
+        ok: false,
+        status: 500,
+        json: async () => ({
+          error: {
+            message: "Internal Server Error",
+            createdAt: "2024-01-12T10:30:00Z",
+          },
+        }),
+      });
+
+      await expect(fetchMessages()).rejects.toThrow("Internal Server Error");
+    });
   });
 
   describe("sendMessage", () => {
@@ -73,6 +109,48 @@ describe("messageClient", () => {
         body: JSON.stringify(newMessage),
       });
       expect(result).toEqual(mockResponse);
+    });
+
+    it("throws error when network fails", async () => {
+      (global.fetch as ReturnType<typeof vi.fn>).mockRejectedValue(
+        new Error("Network request failed"),
+      );
+
+      await expect(sendMessage({ author: "Alice", message: "Hi" })).rejects.toThrow(
+        "Failed to send message",
+      );
+    });
+
+    it("throws error when API returns 400", async () => {
+      (global.fetch as ReturnType<typeof vi.fn>).mockResolvedValue({
+        ok: false,
+        status: 400,
+        json: async () => ({
+          error: "Invalid message format",
+          details: [{ msg: "Message cannot exceed 500 characters", param: "message" }],
+        }),
+      });
+
+      await expect(sendMessage({ author: "Alice", message: "Hi" })).rejects.toThrow(
+        "Invalid message format",
+      );
+    });
+
+    it("throws error when API returns 500", async () => {
+      (global.fetch as ReturnType<typeof vi.fn>).mockResolvedValue({
+        ok: false,
+        status: 500,
+        json: async () => ({
+          error: {
+            message: "Internal Server Error",
+            createdAt: "2024-01-12T10:30:00Z",
+          },
+        }),
+      });
+
+      await expect(sendMessage({ author: "Alice", message: "Hi" })).rejects.toThrow(
+        "Internal Server Error",
+      );
     });
   });
 });
