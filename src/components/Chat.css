@@ -12,3 +12,10 @@
 .chat::-webkit-scrollbar {
   display: none;
 }
+
+.chat__error-message {
+  align-self: center;
+  font-size: var(--font-size-lg);
+  color: var(--color-bg-button);
+  padding: var(--spacing-sm);
+}

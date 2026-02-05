@@ -117,4 +117,39 @@ describe("Chat", () => {
       expect(scrollTopSetter).toHaveBeenCalledWith(1000);
     });
   });
+
+  it("displays error message when fetching messages fails", async () => {
+    vi.mocked(messageClient.fetchMessages).mockRejectedValue(
+      new Error("Failed to fetch messages: Network request failed"),
+    );
+
+    render(<Chat />);
+
+    await waitFor(() => {
+      expect(screen.getByText(/failed to fetch messages/i)).toBeInTheDocument();
+    });
+  });
+
+  it("displays error message when sending message fails", async () => {
+    const user = userEvent.setup();
+
+    vi.mocked(messageClient.fetchMessages).mockResolvedValue(mockMessages);
+    vi.mocked(messageClient.sendMessage).mockRejectedValue(
+      new Error("Failed to send message: Network request failed"),
+    );
+
+    render(<Chat />);
+
+    await waitFor(() => expect(messageClient.fetchMessages).toHaveBeenCalled());
+
+    const messageInput = screen.getByPlaceholderText(/message/i);
+    const sendButton = screen.getByRole("button", { name: /send/i });
+
+    await user.type(messageInput, "Hello!");
+    await user.click(sendButton);
+
+    await waitFor(() => {
+      expect(screen.getByText(/failed to send message/i)).toBeInTheDocument();
+    });
+  });
 });
