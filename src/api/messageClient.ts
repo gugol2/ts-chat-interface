@@ -18,8 +18,16 @@ async function handleRequest<T>(fetchPromise: Promise<Response>, errorMessage: s
 
   if (!response.ok) {
     const errorData = await response.json();
-    const apiErrorMessage =
-      typeof errorData.error === "string" ? errorData.error : errorData.error.message;
+    let apiErrorMessage: string;
+
+    if (typeof errorData.error === "string") {
+      apiErrorMessage = errorData.error;
+    } else if (Array.isArray(errorData.error.message)) {
+      apiErrorMessage = errorData.error.message[0].message;
+    } else {
+      apiErrorMessage = errorData.error.message;
+    }
+
     throw new Error(apiErrorMessage);
   }
 

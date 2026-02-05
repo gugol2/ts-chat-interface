@@ -67,12 +67,14 @@ describe("messageClient", () => {
         ok: false,
         status: 400,
         json: async () => ({
-          error: "Invalid query parameters",
-          details: [{ msg: "Invalid timestamp format", param: "after", location: "query" }],
+          error: {
+            message: [{ field: "after", message: "Invalid timestamp format" }],
+            timestamp: "2026-02-05T17:27:41.441Z",
+          },
         }),
       });
 
-      await expect(fetchMessages()).rejects.toThrow("Invalid query parameters");
+      await expect(fetchMessages()).rejects.toThrow("Invalid timestamp format");
     });
 
     it("throws error when API returns 500", async () => {
@@ -128,13 +130,21 @@ describe("messageClient", () => {
         ok: false,
         status: 400,
         json: async () => ({
-          error: "Invalid message format",
-          details: [{ msg: "Message cannot exceed 500 characters", param: "message" }],
+          error: {
+            message: [
+              {
+                field: "author",
+                message:
+                  "Author can only contain letters, numbers, spaces, hyphens, and underscores",
+              },
+            ],
+            timestamp: "2026-02-05T17:27:41.441Z",
+          },
         }),
       });
 
       await expect(sendMessage({ author: "Alice", message: "Hi" })).rejects.toThrow(
-        "Invalid message format",
+        "Author can only contain letters, numbers, spaces, hyphens, and underscores",
       );
     });
 
