@@ -14,9 +14,14 @@ export function MessageInput({ onSend }: MessageInputProps) {
     e.preventDefault();
     if (message.trim() && !sending) {
       setSending(true);
-      await onSend({ author: "You", message });
-      setMessage("");
-      setSending(false);
+      try {
+        await onSend({ author: "You", message });
+        setMessage("");
+      } catch (_error) {
+        // Error is handled by parent component (Chat)
+      } finally {
+        setSending(false);
+      }
     }
   };
 

@@ -85,4 +85,25 @@ describe("MessageInput", () => {
       expect(sendButton).toBeDisabled();
     });
   });
+
+  it("re-enables input when sending fails", async () => {
+    const user = userEvent.setup();
+
+    onSend.mockRejectedValue(new Error("Failed to send"));
+
+    render(<MessageInput onSend={onSend} />);
+
+    const messageInput = screen.getByPlaceholderText(/message/i);
+    const sendButton = screen.getByRole("button", { name: /send/i });
+
+    await user.type(messageInput, "Hello!");
+    await user.click(sendButton);
+
+    await waitFor(() => {
+      expect(messageInput).not.toBeDisabled();
+      expect(sendButton).not.toBeDisabled();
+    });
+
+    expect(messageInput).toHaveValue("Hello!");
+  });
 });
