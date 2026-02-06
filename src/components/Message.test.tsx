@@ -31,4 +31,19 @@ describe("Message", () => {
 
     expect(messageElement).toHaveClass("message--user");
   });
+
+  it("applies 'message--user' and 'message--pending' class when pending is true", () => {
+    const messageData = {
+      _id: "::_id::",
+      author: "You",
+      message: "My message",
+      createdAt: "2024-01-01T10:30:00.000Z",
+      pending: true,
+    };
+
+    const { container } = render(<Message {...messageData} />);
+    const messageElement = container.querySelector(".message");
+
+    expect(messageElement).toHaveClass("message message--user message--pending");
+  });
 });

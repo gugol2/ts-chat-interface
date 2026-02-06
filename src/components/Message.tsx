@@ -1,10 +1,14 @@
 import type { MessageType } from "../types/message";
 import "./Message.css";
 
-export function Message({ author, message, createdAt }: MessageType) {
+export function Message({ author, message, createdAt, pending }: MessageType) {
   const formattedDate = new Date(createdAt).toLocaleString();
   const isOwnMessage = author === "You";
-  const messageClass = isOwnMessage ? "message message--user" : "message";
+  const messageClass = pending
+    ? "message message--user message--pending"
+    : isOwnMessage
+      ? "message message--user"
+      : "message";
 
   return (
     <div className={messageClass}>

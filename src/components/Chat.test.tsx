@@ -154,4 +154,67 @@ describe("Chat", () => {
       expect(toast.error).toHaveBeenCalledWith("Failed to send message: Network request failed");
     });
   });
+
+  it("shows optimistic message immediately when sending", async () => {
+    const user = userEvent.setup();
+
+    vi.mocked(messageClient.fetchMessages).mockResolvedValue(mockMessages);
+    vi.mocked(messageClient.sendMessage).mockImplementation(
+      () => new Promise((resolve) => setTimeout(() => resolve(mockNewMessage), 100)),
+    );
+
+    const { container } = render(<Chat />);
+
+    await waitFor(() => expect(messageClient.fetchMessages).toHaveBeenCalled());
+
+    const messageInput = screen.getByPlaceholderText(/message/i);
+    const sendButton = screen.getByRole("button", { name: /send/i });
+
+    await user.type(messageInput, "Hello!");
+    await user.click(sendButton);
+
+    const pendingMessage = container.querySelector(".message--pending");
+    expect(pendingMessage).toBeInTheDocument();
+    expect(pendingMessage?.textContent).toContain("You");
+    expect(pendingMessage?.textContent).toContain("Hello!");
+
+    await waitFor(() => {
+      expect(messageClient.sendMessage).toHaveBeenCalled();
+    });
+  });
+
+  it("removes optimistic message when sending fails and keeps text in input", async () => {
+    const user = userEvent.setup();
+
+    vi.mocked(messageClient.fetchMessages).mockResolvedValue(mockMessages);
+    vi.mocked(messageClient.sendMessage).mockImplementation(
+      () =>
+        new Promise((_, reject) =>
+          setTimeout(() => reject(new Error("Failed to send message: Network request failed")), 50),
+        ),
+    );
+
+    const { container } = render(<Chat />);
+
+    await waitFor(() => expect(messageClient.fetchMessages).toHaveBeenCalled());
+
+    const messageInput = screen.getByPlaceholderText(/message/i);
+    const sendButton = screen.getByRole("button", { name: /send/i });
+
+    await user.type(messageInput, "Test message");
+    await user.click(sendButton);
+
+    await waitFor(() => {
+      const pendingMessage = container.querySelector(".message--pending");
+      expect(pendingMessage).toBeInTheDocument();
+    });
+
+    await waitFor(() => {
+      expect(toast.error).toHaveBeenCalled();
+      const pendingAfter = container.querySelector(".message--pending");
+      expect(pendingAfter).not.toBeInTheDocument();
+    });
+
+    expect(messageInput).toHaveValue("Test message");
+  });
 });
