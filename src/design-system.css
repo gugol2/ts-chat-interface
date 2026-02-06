@@ -13,6 +13,13 @@
   --color-border: #e0e0e0;
   --color-shimmer-bg: #f0f0f0;
 
+  --shimmer-gradient: linear-gradient(
+    90deg,
+    var(--color-border) 25%,
+    var(--color-shimmer-bg) 50%,
+    var(--color-border) 75%
+  );
+
   --spacing-xs: 4px;
   --spacing-sm: 8px;
   --spacing-md: 12px;

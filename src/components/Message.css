@@ -12,12 +12,7 @@
 }
 
 .message--pending {
-  background: linear-gradient(
-    90deg,
-    var(--color-border) 25%,
-    var(--color-shimmer-bg) 50%,
-    var(--color-border) 75%
-  );
+  background: var(--shimmer-gradient);
   background-size: 200% 100%;
   animation: shimmer 1.5s infinite;
 }
