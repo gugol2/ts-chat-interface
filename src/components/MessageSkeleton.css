@@ -5,7 +5,12 @@
 .message-skeleton__author {
   width: 80px;
   height: 12px;
-  background: linear-gradient(90deg, var(--color-border) 25%, #f0f0f0 50%, var(--color-border) 75%);
+  background: linear-gradient(
+    90deg,
+    var(--color-border) 25%,
+    var(--color-shimmer-bg) 50%,
+    var(--color-border) 75%
+  );
   background-size: 200% 100%;
   animation: shimmer 1.5s infinite;
   border-radius: var(--border-radius-sm);
@@ -15,7 +20,12 @@
 .message-skeleton__content {
   width: 120px;
   height: 14px;
-  background: linear-gradient(90deg, var(--color-border) 25%, #f0f0f0 50%, var(--color-border) 75%);
+  background: linear-gradient(
+    90deg,
+    var(--color-border) 25%,
+    var(--color-shimmer-bg) 50%,
+    var(--color-border) 75%
+  );
   background-size: 200% 100%;
   animation: shimmer 1.5s infinite;
   border-radius: var(--border-radius-sm);
@@ -25,7 +35,12 @@
 .message-skeleton__timestamp {
   width: 50px;
   height: 10px;
-  background: linear-gradient(90deg, var(--color-border) 25%, #f0f0f0 50%, var(--color-border) 75%);
+  background: linear-gradient(
+    90deg,
+    var(--color-border) 25%,
+    var(--color-shimmer-bg) 50%,
+    var(--color-border) 75%
+  );
   background-size: 200% 100%;
   animation: shimmer 1.5s infinite;
   border-radius: var(--border-radius-sm);
