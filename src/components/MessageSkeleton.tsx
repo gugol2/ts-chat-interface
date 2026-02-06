@@ -6,9 +6,9 @@ export function MessageSkeleton() {
 
   return (
     <div className={`${messageClass} message-skeleton`}>
-      <div className="message-skeleton__author"></div>
-      <div className="message-skeleton__content"></div>
-      <div className="message-skeleton__timestamp"></div>
+      <div className="message-skeleton__author shimmer"></div>
+      <div className="message-skeleton__content shimmer"></div>
+      <div className="message-skeleton__timestamp shimmer"></div>
     </div>
   );
 }

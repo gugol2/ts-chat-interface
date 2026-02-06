@@ -5,9 +5,6 @@
 .message-skeleton__author {
   width: 80px;
   height: 12px;
-  background: var(--shimmer-gradient);
-  background-size: 200% 100%;
-  animation: shimmer 1.5s infinite;
   border-radius: var(--border-radius-sm);
   margin-bottom: var(--spacing-xs);
 }
@@ -15,9 +12,6 @@
 .message-skeleton__content {
   width: 120px;
   height: 14px;
-  background: var(--shimmer-gradient);
-  background-size: 200% 100%;
-  animation: shimmer 1.5s infinite;
   border-radius: var(--border-radius-sm);
   margin-bottom: var(--spacing-xs);
 }
@@ -25,17 +19,5 @@
 .message-skeleton__timestamp {
   width: 50px;
   height: 10px;
-  background: var(--shimmer-gradient);
-  background-size: 200% 100%;
-  animation: shimmer 1.5s infinite;
   border-radius: var(--border-radius-sm);
-}
-
-@keyframes shimmer {
-  0% {
-    background-position: 200% 0;
-  }
-  100% {
-    background-position: -200% 0;
-  }
 }

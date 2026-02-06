@@ -5,7 +5,7 @@ export function Message({ author, message, createdAt, pending }: MessageType) {
   const formattedDate = new Date(createdAt).toLocaleString();
   const isOwnMessage = author === "You";
   const messageClass = pending
-    ? "message message--user message--pending"
+    ? "message message--user shimmer"
     : isOwnMessage
       ? "message message--user"
       : "message";

@@ -32,7 +32,7 @@ describe("Message", () => {
     expect(messageElement).toHaveClass("message--user");
   });
 
-  it("applies 'message--user' and 'message--pending' class when pending is true", () => {
+  it("applies 'message--user' and 'shimmer' class when pending is true", () => {
     const messageData = {
       _id: "::_id::",
       author: "You",
@@ -44,6 +44,6 @@ describe("Message", () => {
     const { container } = render(<Message {...messageData} />);
     const messageElement = container.querySelector(".message");
 
-    expect(messageElement).toHaveClass("message message--user message--pending");
+    expect(messageElement).toHaveClass("message message--user shimmer");
   });
 });

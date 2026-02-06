@@ -173,7 +173,7 @@ describe("Chat", () => {
     await user.type(messageInput, "Hello!");
     await user.click(sendButton);
 
-    const pendingMessage = container.querySelector(".message--pending");
+    const pendingMessage = container.querySelector(".shimmer");
     expect(pendingMessage).toBeInTheDocument();
     expect(pendingMessage?.textContent).toContain("You");
     expect(pendingMessage?.textContent).toContain("Hello!");
@@ -205,13 +205,13 @@ describe("Chat", () => {
     await user.click(sendButton);
 
     await waitFor(() => {
-      const pendingMessage = container.querySelector(".message--pending");
+      const pendingMessage = container.querySelector(".shimmer");
       expect(pendingMessage).toBeInTheDocument();
     });
 
     await waitFor(() => {
       expect(toast.error).toHaveBeenCalled();
-      const pendingAfter = container.querySelector(".message--pending");
+      const pendingAfter = container.querySelector(".shimmer");
       expect(pendingAfter).not.toBeInTheDocument();
     });
 
