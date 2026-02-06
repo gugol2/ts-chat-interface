@@ -4,11 +4,15 @@ import "./Message.css";
 export function Message({ author, message, createdAt, pending }: MessageType) {
   const formattedDate = new Date(createdAt).toLocaleString();
   const isOwnMessage = author === "You";
-  const messageClass = pending
-    ? "message message--user shimmer"
-    : isOwnMessage
-      ? "message message--user"
-      : "message";
+
+  let messageClass = "message";
+
+  if (isOwnMessage) {
+    messageClass += " message--user";
+  }
+  if (pending) {
+    messageClass += " shimmer";
+  }
 
   return (
     <div className={messageClass}>
