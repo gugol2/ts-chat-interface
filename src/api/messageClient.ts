@@ -1,7 +1,7 @@
 import type {
+  ApiMessageType,
   CreateMessageRequestType,
   GetMessagesParamsType,
-  MessageType,
 } from "../types/message";
 
 const API_BASE_URL = "http://localhost:3000/api/v1";
@@ -34,7 +34,7 @@ async function handleRequest<T>(fetchPromise: Promise<Response>, errorMessage: s
   return response.json();
 }
 
-export async function fetchMessages(params?: GetMessagesParamsType): Promise<MessageType[]> {
+export async function fetchMessages(params?: GetMessagesParamsType): Promise<ApiMessageType[]> {
   const url = new URL(`${API_BASE_URL}/messages`);
   if (params?.after) {
     url.searchParams.append("after", params.after);
@@ -46,7 +46,7 @@ export async function fetchMessages(params?: GetMessagesParamsType): Promise<Mes
     url.searchParams.append("before", params.before);
   }
 
-  return handleRequest<MessageType[]>(
+  return handleRequest<ApiMessageType[]>(
     fetch(url.toString(), {
       headers: {
         Authorization: `Bearer ${AUTH_TOKEN}`,
@@ -56,8 +56,8 @@ export async function fetchMessages(params?: GetMessagesParamsType): Promise<Mes
   );
 }
 
-export async function sendMessage(data: CreateMessageRequestType): Promise<MessageType> {
-  return handleRequest<MessageType>(
+export async function sendMessage(data: CreateMessageRequestType): Promise<ApiMessageType> {
+  return handleRequest<ApiMessageType>(
     fetch(`${API_BASE_URL}/messages`, {
       method: "POST",
       headers: {
