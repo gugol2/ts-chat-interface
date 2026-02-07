@@ -42,3 +42,21 @@
   color: transparent;
   border-radius: var(--border-radius-sm);
 }
+
+@media (max-width: 768px) {
+  .message {
+    max-width: 77%;
+  }
+
+  .message__author {
+    font-size: var(--font-size-base);
+  }
+
+  .message__content {
+    font-size: var(--font-size-lg);
+  }
+
+  .message__timestamp {
+    font-size: var(--font-size-base);
+  }
+}

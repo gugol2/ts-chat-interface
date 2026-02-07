@@ -18,7 +18,7 @@
 
 .message-input__field {
   flex: 1;
-  padding: var(--spacing-lg);
+  padding: var(--spacing-lg) var(--spacing-sm);
   border: none;
   border-radius: var(--border-radius-sm);
   background-color: var(--color-bg-input);
@@ -26,7 +26,8 @@
   font-size: var(--font-size-base);
   color: var(--color-text-primary);
   resize: vertical;
-  height: 48px;
+  height: 50px;
+  line-height: 18px;
 }
 
 .message-input__field:focus {
@@ -35,6 +36,7 @@
 
 .message-input__field::placeholder {
   color: var(--color-text-secondary);
+  padding-left: var(--spacing-sm);
 }
 
 .message-input__field:disabled {
@@ -69,4 +71,28 @@
 
 .message-input__button:disabled:hover {
   opacity: 0.5;
+}
+
+@media (max-width: 768px) {
+  .message-input {
+    padding: var(--spacing-sm);
+  }
+
+  .message-input__container {
+    max-width: none;
+  }
+
+  .message-input__field {
+    flex: 5;
+    font-size: var(--font-size-lg);
+    border-radius: var(--border-radius-md);
+    height: 70px;
+    line-height: 38px;
+  }
+
+  .message-input__button {
+    flex: 1;
+    font-size: var(--font-size-lg);
+    border-radius: var(--border-radius-md);
+  }
 }

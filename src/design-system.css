@@ -1,4 +1,7 @@
 :root {
+  /* ONLY INFORMATIVE */
+  --breakpoint-mobile: 768px;
+
   --color-text-primary: #333333;
   --color-text-secondary: #999999;
   --color-text-light: #cccccc;
