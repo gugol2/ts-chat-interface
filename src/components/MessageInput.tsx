@@ -28,6 +28,13 @@ export function MessageInput({ onSend, disabled }: MessageInputProps) {
     }
   };
 
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      handleSubmit(e as unknown as React.SubmitEvent<HTMLFormElement>);
+    }
+  };
+
   return (
     <form onSubmit={handleSubmit} className="message-input">
       <div className="message-input__container">
@@ -38,6 +45,7 @@ export function MessageInput({ onSend, disabled }: MessageInputProps) {
           placeholder="Message"
           value={message}
           onChange={(e) => setMessage(e.target.value)}
+          onKeyDown={handleKeyDown}
           disabled={isDisabled}
         />
         <button

@@ -137,4 +137,32 @@ describe("MessageInput", () => {
       expect(sendButton).not.toBeDisabled();
     });
   });
+
+  describe("keyboard shortcuts", () => {
+    it("sends message when pressing Enter without Shift", async () => {
+      const user = userEvent.setup();
+
+      render(<MessageInput onSend={onSend} disabled={false} />);
+
+      const messageInput = screen.getByPlaceholderText(/message/i);
+
+      await user.type(messageInput, "Hello World");
+      await user.keyboard("{Enter}");
+
+      expect(onSend).toHaveBeenCalledWith({ author: "You", message: "Hello World" });
+    });
+
+    it("does NOT send message when pressing Shift+Enter", async () => {
+      const user = userEvent.setup();
+
+      render(<MessageInput onSend={onSend} disabled={false} />);
+
+      const messageInput = screen.getByPlaceholderText(/message/i);
+
+      await user.type(messageInput, "Hello");
+      await user.keyboard("{Shift>}{Enter}{/Shift}");
+
+      expect(onSend).not.toHaveBeenCalled();
+    });
+  });
 });
