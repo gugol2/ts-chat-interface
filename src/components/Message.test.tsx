@@ -15,7 +15,7 @@ describe("Message", () => {
 
     expect(screen.getByText("John Doe")).toBeInTheDocument();
     expect(screen.getByText("Hello World")).toBeInTheDocument();
-    expect(screen.getByText(/2024/)).toBeInTheDocument();
+    expect(screen.getByText("1 Jan 2024 10:30")).toBeInTheDocument();
   });
 
   it("applies 'message--user' class when author is 'You'", () => {

@@ -1,8 +1,9 @@
+import { formatMessageDate } from "../helpers/formatMessageDate";
 import type { MessageType } from "../types/message";
 import "./Message.css";
 
 export function Message({ author, message, createdAt, pending }: MessageType) {
-  const formattedDate = new Date(createdAt).toLocaleString();
+  const formattedDate = formatMessageDate(createdAt);
   const isOwnMessage = author === "You";
 
   let messageClass = "message";
