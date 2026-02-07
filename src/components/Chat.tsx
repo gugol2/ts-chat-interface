@@ -17,7 +17,6 @@ export function Chat() {
       try {
         const data = await fetchMessages({
           before: new Date().toISOString(),
-          limit: 25,
         });
         setMessages(data);
         setError(false);
