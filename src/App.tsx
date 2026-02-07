@@ -6,7 +6,7 @@ function App() {
   return (
     <div className="app">
       <Toaster position="top-center" reverseOrder={false} />
-      <h1>Doodle Chat</h1>
+      <h1>Let's Chat</h1>
       <Chat />
     </div>
   );
