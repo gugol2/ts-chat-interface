@@ -4,6 +4,7 @@
   border-radius: var(--border-radius-md);
   max-width: 70%;
   align-self: flex-start;
+  border: 2px solid var(--color-text-light);
 }
 
 .message--user {
@@ -35,7 +36,7 @@
 
 .message__timestamp {
   font-size: var(--font-size-sm);
-  color: var(--color-text-light);
+  color: var(--color-text-secondary);
 }
 
 .message__timestamp.shimmer-reversed {
