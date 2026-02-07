@@ -20,15 +20,15 @@ describe("getErrorMessage", () => {
     expect(result).toBe("404");
   });
 
-  it("converts null to string", () => {
+  it("converts null to 'Unknown Error' string", () => {
     const error = null;
     const result = getErrorMessage(error);
-    expect(result).toBe("null");
+    expect(result).toBe("Unknown Error");
   });
 
-  it("converts undefined to string", () => {
+  it("converts undefined to 'Unknown Error' string", () => {
     const error = undefined;
     const result = getErrorMessage(error);
-    expect(result).toBe("undefined");
+    expect(result).toBe("Unknown Error");
   });
 });
