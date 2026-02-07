@@ -1,73 +1,136 @@
-# React + TypeScript + Vite
+# Chat Application
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern, responsive chat interface built with React and TypeScript.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### Core Functionality
+- **Real-time messaging** - Send and receive messages with instant updates
+- **Optimistic UI updates** - Messages appear immediately with shimmer effect while sending
+- **Error handling** - User-friendly toast notifications for all error states
+- **Loading states** - Skeleton screens while fetching messages
+- **Keyboard shortcuts** - Press Enter to send, Shift+Enter for new line
 
-## React Compiler
+### User Experience
+- **Responsive design** - Optimized for mobile (≤768px) and desktop
+- **Accessibility** - ARIA labels, semantic HTML, screen reader support
+- **Visual feedback** - Shimmer animations for pending states
+- **Smart input** - Auto-disabled when loading or errors occur or empty message
+- **Message preservation** - Failed messages remain in input for retry
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### Sending a message flow -> Optimistic Updates (add slow 4G/3G Throttling for noticing it)
+- Messages appear immediately with their date shown with a shimmering effect
+- Shimmer animation while pending (waiting for API responses)
+- Replaced with real message on success
+- Removed on failure (preserves input text)
 
-## Expanding the ESLint configuration
+## Tech Stack
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- **React 18** - UI framework
+- **TypeScript** - Type safety and developer experience
+- **Vite** - Fast build tool and dev server
+- **Vitest** - Testing framework with 50 comprehensive tests
+- **React Hot Toast** - Toast notifications
+- **CSS Custom Properties** - Themeable design system
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## Getting Started
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+### Prerequisites
+- Node.js 18+
+- npm or yarn
+- Backend API running on `http://localhost:3000`
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+### Installation
+
+```bash
+# Install dependencies
+npm install
+
+# Start development server
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+The app will be available at `http://localhost:5173`
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+### Backend Setup
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+This frontend requires the [Frontend Challenge Chat API](https://github.com/DoodleScheduling/frontend-challenge-chat-api) running locally.
+
+```bash
+# In a separate terminal, clone and run the backend
+git clone https://github.com/DoodleScheduling/frontend-challenge-chat-api
+cd frontend-challenge-chat-api
+npm install
+follow the instructions to run it
 ```
+
+## Available Scripts
+
+```bash
+npm run dev          # Start development server
+npm run build        # Build for production
+npm run preview      # Preview production build
+npm run test         # Run all tests
+npm run test:watch   # Run tests in watch mode
+npm run type-check   # Check TypeScript types
+npm run lint         # Lint code with Biome
+npm run format       # Format code with Biome
+npm run validate     # Run all checks (tests, lint, types)
+npm run biome-check  # Run checks with Biome
+npm run biome-check:fix  # Run checks with Biome and fix errors safe when possible
+npm run biome-check:fix:unsafe  # Run checks with Biome and fix safe and unsafe errors when possible
+...
+```
+
+## Project Structure
+
+```
+src/
+├── api/              # API client layer
+│   └── messageClient.ts      # Fetch/send messages
+├── components/       # React components
+│   ├── Chat.tsx              # Main chat container
+│   ├── Message.tsx           # Individual message
+│   ├── MessageInput.tsx      # Input form
+│   ├── MessageList.tsx       # Message list with loading
+│   └── MessageSkeleton.tsx   # Loading skeleton
+├── helpers/          # Utility functions
+│   ├── createOptimisticMessage.ts  # Optimistic updates
+│   ├── formatMessageDate.ts        # Date formatting
+│   └── getErrorMessage.ts          # Error formatting
+└── types/            # TypeScript definitions
+    └── message.ts
+```
+
+## Architecture Decisions
+
+## Code Quality
+- **Test-Driven Development** - All features were built using TDD when possible
+- **TypeScript strict mode** - Full type safety
+- **DRY principles** - Shared helpers, no duplication
+- **Clean architecture** - Separation of concerns
+- **Zero linting errors** - Enforce Biome checks on stagged files for precommit and for all files on prepush
+
+
+### Error Handling Strategy
+Three-layer approach:
+1. **API Layer** - Catches network/HTTP errors, formats messages
+2. **Component Layer** - Handles errors, updates UI state
+3. **User Layer** - Toast notifications with clear messages
+
+
+### Accessibility Features
+- ARIA labels on all interactive elements
+- `role="log"` with `aria-live="polite"` for message updates
+- Keyboard navigation support
+- Semantic HTML structure
+- Screen reader friendly
+
+
+## Responsive Design
+### Desktop (>768px)
+### Mobile (≤768px)
+
+
+## License
+This project was created with MIT License.
