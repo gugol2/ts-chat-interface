@@ -20,6 +20,13 @@
     var(--color-border) 75%
   );
 
+  --shimmer-gradient-reversed: linear-gradient(
+    90deg,
+    var(--color-shimmer-bg) 25%,
+    var(--color-border) 50%,
+    var(--color-shimmer-bg) 75%
+  );
+
   --spacing-xs: 4px;
   --spacing-sm: 8px;
   --spacing-md: 12px;

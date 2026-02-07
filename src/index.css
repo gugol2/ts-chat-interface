@@ -37,6 +37,12 @@ button {
   animation: shimmer 1.5s infinite;
 }
 
+.shimmer-reversed {
+  background: var(--shimmer-gradient-reversed);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
 @keyframes shimmer {
   0% {
     background-position: 200% 0;

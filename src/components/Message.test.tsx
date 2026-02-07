@@ -46,4 +46,36 @@ describe("Message", () => {
 
     expect(messageElement).toHaveClass("message message--user shimmer");
   });
+
+  describe("class message__timestamp", () => {
+    it("applies 'message__timestamp' and 'shimmer-reversed' class to the date when pending is true", () => {
+      const messageData = {
+        _id: "::_id::",
+        author: "You",
+        message: "My message",
+        createdAt: "2024-01-01T10:30:00.000Z",
+        pending: true,
+      };
+
+      const { container } = render(<Message {...messageData} />);
+      const messageElement = container.querySelector(".message__timestamp");
+
+      expect(messageElement).toHaveClass("message__timestamp shimmer-reversed");
+    });
+
+    it("applies ONLY 'message__timestamp' class to the date when pending is NOT true", () => {
+      const messageData = {
+        _id: "::_id::",
+        author: "You",
+        message: "My message",
+        createdAt: "2024-01-01T10:30:00.000Z",
+      };
+
+      const { container } = render(<Message {...messageData} />);
+      const messageElement = container.querySelector(".message__timestamp");
+
+      expect(messageElement).toHaveClass("message__timestamp");
+      expect(messageElement).not.toHaveClass("shimmer-reversed");
+    });
+  });
 });

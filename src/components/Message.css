@@ -37,3 +37,8 @@
   font-size: var(--font-size-sm);
   color: var(--color-text-light);
 }
+
+.message__timestamp.shimmer-reversed {
+  color: transparent;
+  border-radius: var(--border-radius-sm);
+}
