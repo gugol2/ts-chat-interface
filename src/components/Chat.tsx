@@ -4,6 +4,7 @@ import { fetchMessages, sendMessage } from "../api/messageClient";
 import type { CreateMessageRequestType, MessageType } from "../types/message";
 import "./Chat.css";
 import { createOptimisticMessage } from "../helpers/createOptimisticMessage";
+import { getErrorMessage } from "../helpers/getErrorMessage";
 import { MessageInput } from "./MessageInput";
 import { MessageList } from "./MessageList";
 
@@ -21,8 +22,7 @@ export function Chat() {
         setMessages(data);
         setError(false);
       } catch (err) {
-        const errorMessage = err instanceof Error ? err.message : "Unknown error";
-        toast.error(errorMessage);
+        toast.error(getErrorMessage(err));
         setError(true);
       } finally {
         setLoadingMessages(false);
@@ -52,8 +52,7 @@ export function Chat() {
       );
     } catch (err) {
       setMessages((prev) => prev.filter((msg) => msg._id !== optimisticMessage._id));
-      const errorMessage = err instanceof Error ? err.message : "Unknown error";
-      toast.error(errorMessage);
+      toast.error(getErrorMessage(err));
       throw err;
     }
   }

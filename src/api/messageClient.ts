@@ -1,3 +1,4 @@
+import { getErrorMessage } from "../helpers/getErrorMessage";
 import type {
   ApiMessageType,
   CreateMessageRequestType,
@@ -7,13 +8,16 @@ import type {
 const API_BASE_URL = "http://localhost:3000/api/v1";
 const AUTH_TOKEN = "super-secret-doodle-token";
 
-async function handleRequest<T>(fetchPromise: Promise<Response>, errorMessage: string): Promise<T> {
+async function handleRequest<T>(
+  fetchPromise: Promise<Response>,
+  customErrorMessage: string,
+): Promise<T> {
   let response: Response;
   try {
     response = await fetchPromise;
   } catch (error) {
-    const originalMessage = error instanceof Error ? error.message : String(error);
-    throw new Error(`${errorMessage}: ${originalMessage}`);
+    const originalMessage = getErrorMessage(error);
+    throw new Error(`${customErrorMessage}: ${originalMessage}`);
   }
 
   if (!response.ok) {
