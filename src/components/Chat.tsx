@@ -9,7 +9,8 @@ import { MessageList } from "./MessageList";
 
 export function Chat() {
   const [messages, setMessages] = useState<MessageType[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [loadingMessages, setLoadingMessages] = useState(true);
+  const [error, setError] = useState(false);
 
   useEffect(() => {
     async function loadMessages() {
@@ -19,11 +20,13 @@ export function Chat() {
           limit: 25,
         });
         setMessages(data);
+        setError(false);
       } catch (err) {
         const errorMessage = err instanceof Error ? err.message : "Unknown error";
         toast.error(errorMessage);
+        setError(true);
       } finally {
-        setLoading(false);
+        setLoadingMessages(false);
       }
     }
 
@@ -58,7 +61,7 @@ export function Chat() {
 
   return (
     <div className="chat" ref={chatRef}>
-      <MessageList messages={messages} loading={loading} />
+      <MessageList messages={messages} loading={loadingMessages || error} />
       <MessageInput onSend={handleSendMessage} />
     </div>
   );

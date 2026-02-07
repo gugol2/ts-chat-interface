@@ -24,21 +24,42 @@ describe("Chat", () => {
     createdAt: "2024-01-01T10:01:00.000Z",
   };
 
-  it("shows loading state initially then displays messages", async () => {
-    vi.mocked(messageClient.fetchMessages).mockResolvedValue(mockMessages);
+  describe("show skeleton when loading messages", () => {
+    it("shows loading state initially then displays messages", async () => {
+      vi.mocked(messageClient.fetchMessages).mockResolvedValue(mockMessages);
 
-    const { container } = render(<Chat />);
+      const { container } = render(<Chat />);
 
-    // initially show the skeleton messages
-    const skeletons = container.querySelectorAll(".message-skeleton");
-    expect(skeletons.length).toBeGreaterThan(0);
+      // initially show the skeleton messages
+      const skeletons = container.querySelectorAll(".message-skeleton");
+      expect(skeletons.length).toBeGreaterThan(0);
 
-    // after fetching the info show the messages
-    await waitFor(() => {
+      // after fetching the info show the messages
+      await waitFor(() => {
+        const skeletonsAfter = container.querySelectorAll(".message-skeleton");
+        expect(skeletonsAfter.length).toBe(0);
+        expect(screen.getByText("Alice")).toBeInTheDocument();
+        expect(screen.getByText("Hi!")).toBeInTheDocument();
+      });
+    });
+
+    it("keep showing the skeleton if fetching the messages fails", async () => {
+      const errorMessage = "::errorMessage::";
+      vi.mocked(messageClient.fetchMessages).mockRejectedValue(new Error(errorMessage));
+
+      const { container } = render(<Chat />);
+
+      // initially show the skeleton messages
+      const skeletons = container.querySelectorAll(".message-skeleton");
+      expect(skeletons.length).toBeGreaterThan(0);
+
+      // after fetching the info show the messages
+      await waitFor(() => {
+        expect(toast.error).toHaveBeenCalledWith(errorMessage);
+      });
+
       const skeletonsAfter = container.querySelectorAll(".message-skeleton");
-      expect(skeletonsAfter.length).toBe(0);
-      expect(screen.getByText("Alice")).toBeInTheDocument();
-      expect(screen.getByText("Hi!")).toBeInTheDocument();
+      expect(skeletonsAfter.length).toBeGreaterThan(0);
     });
   });
 
