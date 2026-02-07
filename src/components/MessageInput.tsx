@@ -4,15 +4,18 @@ import "./MessageInput.css";
 
 interface MessageInputProps {
   onSend: (data: CreateMessageRequestType) => Promise<void>;
+  disabled: boolean;
 }
 
-export function MessageInput({ onSend }: MessageInputProps) {
+export function MessageInput({ onSend, disabled }: MessageInputProps) {
   const [message, setMessage] = useState("");
   const [sending, setSending] = useState(false);
 
+  const isDisabled = disabled || sending;
+
   const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (message.trim() && !sending) {
+    if (message.trim() && !isDisabled) {
       setSending(true);
       try {
         await onSend({ author: "You", message });
@@ -35,12 +38,12 @@ export function MessageInput({ onSend }: MessageInputProps) {
           placeholder="Message"
           value={message}
           onChange={(e) => setMessage(e.target.value)}
-          disabled={sending}
+          disabled={isDisabled}
         />
         <button
           type="submit"
           className="message-input__button"
-          disabled={sending || !message.trim()}
+          disabled={isDisabled || !message.trim()}
         >
           Send
         </button>

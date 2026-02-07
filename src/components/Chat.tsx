@@ -61,7 +61,7 @@ export function Chat() {
   return (
     <div className="chat" ref={chatRef}>
       <MessageList messages={messages} loading={loadingMessages || error} />
-      <MessageInput onSend={handleSendMessage} />
+      <MessageInput onSend={handleSendMessage} disabled={loadingMessages || error} />
     </div>
   );
 }
