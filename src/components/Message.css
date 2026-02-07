@@ -1,10 +1,10 @@
 .message {
   padding: var(--spacing-lg);
   background-color: var(--color-bg-message-other);
-  border-radius: var(--border-radius-md);
+  border-radius: var(--border-radius-sm);
   max-width: 70%;
   align-self: flex-start;
-  border: 2px solid var(--color-text-light);
+  border: 1px solid var(--color-text-light);
 }
 
 .message--user {
