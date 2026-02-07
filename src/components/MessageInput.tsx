@@ -43,6 +43,7 @@ export function MessageInput({ onSend, disabled }: MessageInputProps) {
           name="message"
           className="message-input__field"
           placeholder="Message"
+          aria-label="Type your message"
           value={message}
           onChange={(e) => setMessage(e.target.value)}
           onKeyDown={handleKeyDown}
@@ -51,6 +52,7 @@ export function MessageInput({ onSend, disabled }: MessageInputProps) {
         <button
           type="submit"
           className="message-input__button"
+          aria-label="Send message"
           disabled={isDisabled || !message.trim()}
         >
           Send
