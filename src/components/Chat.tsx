@@ -1,14 +1,13 @@
 import { useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
 import { fetchMessages, sendMessage } from "../api/messageClient";
+import { appConfig } from "../config/app";
 import type { CreateMessageRequestType, MessageType } from "../types/message";
 import "./Chat.css";
 import { createOptimisticMessage } from "../helpers/createOptimisticMessage";
 import { getErrorMessage } from "../helpers/getErrorMessage";
 import { MessageInput } from "./MessageInput";
 import { MessageList } from "./MessageList";
-
-const messagesPerRequest = 50;
 
 export function Chat() {
   const [messages, setMessages] = useState<MessageType[]>([]);
@@ -20,7 +19,7 @@ export function Chat() {
       try {
         const data = await fetchMessages({
           before: new Date().toISOString(),
-          limit: messagesPerRequest,
+          limit: appConfig.messagesPerRequest,
         });
         setMessages(data);
         setError(false);
@@ -67,7 +66,7 @@ export function Chat() {
       <MessageList
         messages={messages}
         loading={loadingNotFinishedOrErrors}
-        skeletonCount={messagesPerRequest}
+        skeletonCount={appConfig.messagesPerRequest}
       />
       <MessageInput onSend={handleSendMessage} disabled={loadingNotFinishedOrErrors} />
     </div>

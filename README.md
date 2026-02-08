@@ -46,11 +46,27 @@ A modern, responsive chat interface built with React and TypeScript.
 # Install dependencies
 npm install
 
+# (Optional) Configure environment variables
+touch .env.example .env
+# Create .env to customize settings
+
 # Start development server
 npm run dev
 ```
 
 The app will be available at `http://localhost:5173`
+
+### Configuration
+
+You can customize the application behavior using environment variables:
+
+**`.env` file:**
+```bash
+# Number of messages to fetch per request (default: 50)
+VITE_MESSAGES_PER_REQUEST=50
+```
+
+If not specified, the app uses sensible defaults.
 
 ### Backend Setup
 
