@@ -8,6 +8,8 @@ import { getErrorMessage } from "../helpers/getErrorMessage";
 import { MessageInput } from "./MessageInput";
 import { MessageList } from "./MessageList";
 
+const messagesPerRequest = 50;
+
 export function Chat() {
   const [messages, setMessages] = useState<MessageType[]>([]);
   const [loadingMessages, setLoadingMessages] = useState(true);
@@ -18,6 +20,7 @@ export function Chat() {
       try {
         const data = await fetchMessages({
           before: new Date().toISOString(),
+          limit: messagesPerRequest,
         });
         setMessages(data);
         setError(false);
@@ -59,7 +62,11 @@ export function Chat() {
 
   return (
     <div className="chat" ref={chatRef}>
-      <MessageList messages={messages} loading={loadingMessages || error} />
+      <MessageList
+        messages={messages}
+        loading={loadingMessages || error}
+        skeletonCount={messagesPerRequest}
+      />
       <MessageInput onSend={handleSendMessage} disabled={loadingMessages || error} />
     </div>
   );

@@ -91,6 +91,7 @@ describe("Chat", () => {
         expect(messageClient.fetchMessages).toHaveBeenCalledWith(
           expect.objectContaining({
             before: expect.any(String),
+            limit: 50,
           }),
         );
       });

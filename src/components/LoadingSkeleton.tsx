@@ -1,23 +1,17 @@
 import { MessageSkeleton } from "./MessageSkeleton";
 
-export const LoadingSkeleton = () => {
+interface LoadingSkeletonProps {
+  skeletonCount?: number;
+}
+
+export function LoadingSkeleton({ skeletonCount = 50 }: LoadingSkeletonProps) {
+  const skeletons = Array.from({ length: skeletonCount }, (_, index) => index);
+
   return (
     <>
-      <MessageSkeleton />
-      <MessageSkeleton />
-      <MessageSkeleton />
-      <MessageSkeleton />
-      <MessageSkeleton />
-      <MessageSkeleton />
-      <MessageSkeleton />
-      <MessageSkeleton />
-      <MessageSkeleton />
-      <MessageSkeleton />
-      <MessageSkeleton />
-      <MessageSkeleton />
-      <MessageSkeleton />
-      <MessageSkeleton />
-      <MessageSkeleton />
+      {skeletons.map((id) => (
+        <MessageSkeleton key={`skeleton-${id}`} />
+      ))}
     </>
   );
-};
+}

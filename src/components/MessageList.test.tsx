@@ -3,6 +3,8 @@ import { describe, expect, it } from "vitest";
 import { MessageList } from "./MessageList";
 
 describe("MessageList", () => {
+  const defaultMessagesPerRequest = 50;
+
   const messages = [
     { _id: "::_id-1::", author: "Alice", message: "Hi!", createdAt: "2024-01-01T10:00:00.000Z" },
     { _id: "::_id-2::", author: "Bob", message: "Hello!", createdAt: "2024-01-01T10:01:00.000Z" },
@@ -10,7 +12,7 @@ describe("MessageList", () => {
 
   it("renders a list of skeleton messages when loading is true", async () => {
     const { container } = render(<MessageList messages={messages} loading={true} />);
-    expect(container.querySelectorAll(".message-skeleton").length).toBe(15);
+    expect(container.querySelectorAll(".message-skeleton").length).toBe(defaultMessagesPerRequest);
 
     expect(screen.queryByText("Alice")).not.toBeInTheDocument();
     expect(screen.queryByText("Hi!")).not.toBeInTheDocument();
