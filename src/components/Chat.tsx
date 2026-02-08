@@ -5,6 +5,7 @@ import type { CreateMessageRequestType, MessageType } from "../types/message";
 import "./Chat.css";
 import { createOptimisticMessage } from "../helpers/createOptimisticMessage";
 import { getErrorMessage } from "../helpers/getErrorMessage";
+import { LoadingSkeleton } from "./LoadingSkeleton";
 import { MessageInput } from "./MessageInput";
 import { MessageList } from "./MessageList";
 
@@ -60,14 +61,18 @@ export function Chat() {
     }
   }
 
+  const loadingNotFinishedOrErrors = loadingMessages || error;
+
   return (
     <div className="chat" ref={chatRef}>
-      <MessageList
-        messages={messages}
-        loading={loadingMessages || error}
-        skeletonCount={messagesPerRequest}
-      />
-      <MessageInput onSend={handleSendMessage} disabled={loadingMessages || error} />
+      <div className="chat-message-list" role="log" aria-live="polite" aria-label="Chat messages">
+        {loadingNotFinishedOrErrors ? (
+          <LoadingSkeleton skeletonCount={messagesPerRequest} />
+        ) : (
+          <MessageList messages={messages} />
+        )}
+      </div>
+      <MessageInput onSend={handleSendMessage} disabled={loadingNotFinishedOrErrors} />
     </div>
   );
 }
