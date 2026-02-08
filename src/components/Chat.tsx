@@ -60,14 +60,16 @@ export function Chat() {
     }
   }
 
+  const loadingNotFinishedOrErrors = loadingMessages || error;
+
   return (
     <div className="chat" ref={chatRef}>
       <MessageList
         messages={messages}
-        loading={loadingMessages || error}
+        loading={loadingNotFinishedOrErrors}
         skeletonCount={messagesPerRequest}
       />
-      <MessageInput onSend={handleSendMessage} disabled={loadingMessages || error} />
+      <MessageInput onSend={handleSendMessage} disabled={loadingNotFinishedOrErrors} />
     </div>
   );
 }
