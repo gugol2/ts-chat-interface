@@ -18,4 +18,5 @@
     }
   }
 
+## The API brings the messages ordered from the oldest to the newest, by default
 
