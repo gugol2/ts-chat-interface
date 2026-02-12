@@ -1,3 +1,4 @@
+import { appConfig } from "../config/app";
 import { getErrorMessage } from "../helpers/getErrorMessage";
 import type {
   ApiMessageType,
@@ -5,8 +6,8 @@ import type {
   GetMessagesParamsType,
 } from "../types/message";
 
-const API_BASE_URL = "http://localhost:3000/api/v1";
-const AUTH_TOKEN = "super-secret-doodle-token";
+const API_BASE_URL = appConfig.baseUrl;
+const AUTH_TOKEN = appConfig.authToken;
 
 async function handleRequest<T>(
   fetchPromise: Promise<Response>,
