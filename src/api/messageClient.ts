@@ -17,7 +17,7 @@ async function handleRequest<T>(
     response = await fetchPromise;
   } catch (error) {
     const originalMessage = getErrorMessage(error);
-    throw new Error(`${customErrorMessage}: ${originalMessage}`);
+    throw new Error(customErrorMessage, { cause: originalMessage });
   }
 
   if (!response.ok) {
